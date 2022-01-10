@@ -1,7 +1,6 @@
 package json;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Andrii_Rodionov on 1/3/2017.
@@ -18,14 +17,15 @@ public class JsonObject extends Json {
 
     @Override
     public String toJson() {
+        String output = "{";
         if (pairs.size() == 0){
-            return "{}";
+            return output + "}";
         }
-
-        String output = pairs.keySet().stream()
-                .map(key -> "'" + key + "': " + pairs.get(key).toJson())
-                .collect(Collectors.joining(", ","{","}"));
-        return output;
+        for (String k : pairs.keySet()){
+            output += "'" + k + "': " + pairs.get(k).toJson() + ", ";
+        }
+        output = output.substring(0, output.length() - 2);
+        return output + "}";
     }
 
     public void add(JsonPair jsonPair) {
